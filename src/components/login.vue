@@ -42,6 +42,13 @@
 </template>
 
 <script setup>
+import { computed} from "vue";
+import { useStore } from "vuex";
+
+const stor = useStore();
+const theme = computed(() => stor.getters.currentTheme);
+
+
 import Swal from 'sweetalert2';
 import { ref } from 'vue';
 import { initializeApp } from 'firebase/app';
@@ -154,6 +161,9 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
+.row{
+   background-color: white;
+}
 #login{
   margin-top: 80px;
 }

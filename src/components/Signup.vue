@@ -1,7 +1,7 @@
 <template>
-  <div class="container " id="signup"  :class="'theme-' + theme">
+  <div class="container " id="signup"  >
     <!-- Signup Form -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="background-color: aliceblue;">
       <div class="col-md-5">
         <div class="card shadow p-4">
           <h3 class="text-center mb-4">Signup Form</h3>
