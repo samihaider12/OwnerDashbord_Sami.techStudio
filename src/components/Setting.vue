@@ -32,7 +32,6 @@
           <v-text-field v-if="changePassword" v-model="password" label="New Password" type="password" prepend-inner-icon="mdi-lock" variant="outlined" class="mb-4"></v-text-field>
 
           <div class="d-flex justify-space-between">
-            <v-btn color="red" variant="tonal" @click="openDeleteDialog">Delete Account</v-btn>
             <v-btn color="primary" @click="saveChanges">Save Changes</v-btn>
           </div>
 
@@ -85,13 +84,7 @@ const changePassword = ref(false);
 const password = ref("");
 const lastUpdated = ref("");
 
-// Profile pic upload
-const handlePicUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    profilePic.value = URL.createObjectURL(file);
-  }
-};
+ 
 
 // Save changes with SweetAlert
 const saveChanges = () => {
@@ -107,27 +100,7 @@ const saveChanges = () => {
 };
 
 // Delete confirmation with SweetAlert
-const openDeleteDialog = () => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "This action cannot be undone!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        icon: "success",
-        title: "Deleted!",
-        text: "Your account has been deleted.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
-  });
-};
+ 
 </script>
 
 <style scoped>
