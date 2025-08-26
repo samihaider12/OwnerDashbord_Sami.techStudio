@@ -72,7 +72,7 @@ const theme = computed(() => store.getters.currentTheme);
 // Toggle theme function
 const toggleTheme = () => {
   store.commit("toggleTheme");
-};
+};  
 
 // Profile data
 const profilePic = ref(null);
