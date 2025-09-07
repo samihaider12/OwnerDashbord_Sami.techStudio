@@ -3,41 +3,34 @@
     <!-- Login Form -->
     <div class="row justify-content-center">
       <div class="col-md-4">
-        <div class="card shadow p-4"> 
-          <h3 class="text-center mb-4">Login Form</h3>
-          <form @submit.prevent="handleSubmit" id="myForm">
+        <div class="card shadow p-4">
 
-            <!-- Email -->
-            <div class="floating-label">
-              <input v-model="email" type="email" @blur="emailValidation"
-                     id="email" required>
-              <label for="email">Email</label>
-              <p v-if="emailErrors" class="text-danger"><small>{{ emailErrors }}</small></p>
-            </div>
+          <v-card class="pa-6" max-width="400">
+            <h3 class="text-center mb-6">Login Form</h3>
 
-            <!-- Password -->
-            <div class="floating-label">
-              <input :type="showPassword ? 'text' : 'password'"
-                     v-model="password" @blur="passwordValidation"
-                     id="password" required>
-              <label for="password">Password</label>
-              <button type="button" class="toggle-btn" @click="togglePassword">
-                {{ showPassword ? 'Hide' : 'Show' }}
-              </button>
-              <p v-if="passwordErrors" class="text-danger"><small>{{ passwordErrors }}</small></p>
-            </div>
+            <v-form @submit.prevent="handleSubmit" id="myForm">
+              <!-- Email -->
+              <v-text-field v-model="email" label="Email" type="email" variant="outlined" clearable
+                @blur="emailValidation" :error-messages="emailErrors" class="mb-3" required></v-text-field>
 
-            <!-- Submit -->
-            <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary" :disabled="isLoading">
-                    <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                    {{ isLoading ? 'Loing...' : 'Login' }}
-                  </button>
-            </div>
-                 <p class="text-center mt-2">Don't have an account? 
-                  <router-link to="/signup">Register</router-link>
-                 </p>
-          </form>
+              <!-- Password -->
+              <v-text-field v-model="password" :type="showPassword ? 'text' : 'password'" label="Password"
+                variant="outlined"  @blur="passwordValidation"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="togglePassword"
+                :error-messages="passwordErrors" class="mb-3" required></v-text-field>
+
+              <!-- Submit -->
+              <v-btn type="submit" color="primary" block :loading="isLoading" class="mt-4">
+                {{ isLoading ? 'Logging in...' : 'Login' }}
+              </v-btn>
+
+              <!-- Link -->
+              <p class="text-center mt-4">
+                Don’t have an account?
+                <router-link to="/signup">Register</router-link>
+              </p>
+            </v-form>
+          </v-card>
         </div>
       </div>
     </div>
@@ -45,7 +38,7 @@
 </template>
 
 <script setup>
-import { computed} from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const stor = useStore();
@@ -83,7 +76,7 @@ const password = ref('');
 const passwordErrors = ref('');
 const showPassword = ref(false);
 // isLoading
-const isLoading= ref(false)
+const isLoading = ref(false)
 // Show & Hide Password
 function togglePassword() {
   showPassword.value = !showPassword.value;
@@ -96,9 +89,9 @@ function emailValidation() {
     return;
   }
   const checkSpecial = (email.value.match(/[@]/g) || []).length;
-    
+
   let emailError = [];
-  
+
   if (checkSpecial < 1) emailError.push("Must contain @");
   emailErrors.value = emailError.join(" , ");
 }
@@ -124,7 +117,7 @@ async function handleSubmit() {
   }
 
   try {
-    isLoading.value=true;
+    isLoading.value = true;
     // Login user in Firebase Auth
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     const userData = userCredential.user;
@@ -148,54 +141,20 @@ async function handleSubmit() {
       confirmButtonText: 'OK'
     });
   }
-  finally{
-    isLoading.value=false;
+  finally {
+    isLoading.value = false;
   }
 }
 
 </script>
 
 <style scoped>
-.row{
-   background-color: white;
+.row {
+  background-color: white;
 }
-#login{
-  margin-top: 80px;
+
+#login {
+  margin-top: 130px;
 }
-.floating-label {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-.floating-label input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  outline: none;
-  font-size: 1rem;
-}
-.floating-label label {
-  position: absolute;
-  left: 12px;
-  top: 10px;
-  background: white;
-  padding: 0 4px;
-  color: #6c757d;
-  transition: 0.3s ease all;
-}
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
-  top: -10px;
-  font-size: 0.85rem;
-  color: #007bff;
-}
-.toggle-btn {
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  border: none;
-  background: transparent;
-  font-size: 0.9rem;
-  cursor: pointer;
-  color: #007bff;
-}
+ 
 </style>
