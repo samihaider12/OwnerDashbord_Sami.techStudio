@@ -96,12 +96,9 @@ function emailValidation() {
     return;
   }
   const checkSpecial = (email.value.match(/[@]/g) || []).length;
-  // const checkAlphabet = (email.value.match(/[a-zA-Z]/g) || []).length;
-  // const checkNumber = (email.value.match(/[0-9]/g) || []).length;
-
+    
   let emailError = [];
-  // if (checkAlphabet < 2) emailError.push("At least 2 letters");
-  // if (checkNumber < 2) emailError.push("At least 2 numbers");
+  
   if (checkSpecial < 1) emailError.push("Must contain @");
   emailErrors.value = emailError.join(" , ");
 }
@@ -112,16 +109,6 @@ function passwordValidation() {
     passwordErrors.value = "";
     return;
   }
-  // // const checkSpecial = (password.value.match(/[!@#$%*(),.?;":{}|<>]/g) || []).length;
-  // // const checkAlphabet = (password.value.match(/[a-zA-Z]/g) || []).length;
-  // // const checkNumber = (password.value.match(/[0-9]/g) || []).length;
-
-  // let passwordError = [];
-  // // if (checkSpecial < 1) passwordError.push("Include at least 1 special character");
-  // // if (checkAlphabet < 4) passwordError.push("At least 4 letters");
-  // // if (checkNumber < 2) passwordError.push("At least 2 numbers");
-
-  // passwordErrors.value = passwordError.join(" , ");
 }
 
 // Use router
