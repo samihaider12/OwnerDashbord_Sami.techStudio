@@ -37,7 +37,10 @@
 
             <!-- Submit -->
             <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-primary"> Submit</button>
+                  <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                    <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isLoading ? 'Submitting...' : 'Submit' }}
+                  </button>
             </div>
             <p class="text-center mt-2">Already have an account? <router-link to="/login"> Login</router-link></p>
           </form>
@@ -82,6 +85,8 @@ const emailErrors = ref()
 const password = ref();
 const passwordErrors = ref()
 const showPassword = ref(false);
+// isLoading
+const isLoading = ref(false)
 
 //  Show & Hide Password
 function togglePassword() {
@@ -116,11 +121,11 @@ function emailValidation() {
   }
   const checkSpecial = (email.value.match(/[@]/g) || []).length;
   const checkAlphabet = (email.value.match(/[a-zA-Z]/g) || []).length;
-  const checkNumber = (email.value.match(/[0-9]/g) || []).length;
+  // const checkNumber = (email.value.match(/[0-9]/g) || []).length;
   
   let emailError = [];
   if (checkAlphabet < 2) emailError.push("At least 2 letters");
-  if (checkNumber < 2) emailError.push("At least 2 numbers");
+  // if (checkNumber < 2) emailError.push("At least 2 numbers");
   if (checkSpecial < 1) emailError.push("at @ special character");
   emailErrors.value = emailError.join(" , ");
 }
@@ -148,6 +153,8 @@ function passwordValidation() {
 // all Function call in one function
 async function handleSubmit() {   
   // Run validations first
+  
+
   userValidation();
   emailValidation();
   passwordValidation();
@@ -157,6 +164,7 @@ async function handleSubmit() {
   }
 
   try {
+    isLoading.value =true ;
     // Create user in Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const userData = userCredential.user;
@@ -189,8 +197,12 @@ async function handleSubmit() {
       icon: 'error',
       confirmButtonText: 'OK'
     });
+    
   }
-}
+  finally{
+    isLoading.value = false;
+  }
+  }
 
 
 </script>
